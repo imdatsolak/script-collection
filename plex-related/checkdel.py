@@ -4,6 +4,13 @@
 import sys
 import getopt
 
+"""
+Checks whether there are items in <backup-list> that were deleted
+from the <live-list>
+
+Usually used to compare "Motion Pictures" from Live System to the
+same folder on backup-system.
+"""
 try:
     options, arguments = getopt.getopt(sys.argv[1:], 'l:b:')
 except getopt.GetoptError:

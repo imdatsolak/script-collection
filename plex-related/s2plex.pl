@@ -34,7 +34,7 @@ foreach $show (sort @shows) {
 			closedir($mh);
 			for $season (@seasons) {
 				if ($season ne "." && $season ne ".." && $season !~ /DS_Store/) {
-					&Debug("\t$season");
+					&Debug("   $season");
 					chdir($DSTDIR . "/" . $show);
 					if (! -d $season) {
 						mkdir($season);
@@ -49,7 +49,6 @@ foreach $show (sort @shows) {
 						$seasonNr = sprintf("%02d", $seasonNr);
 						for $episode (@episodes) {
 							if ($episode ne "." && $episode ne ".." && $episode !~ /DS_Store/) {
-								&Debug("\t\t$episode");
 								chdir($DSTDIR . "/" . $show . "/" . $season);
 								$episodeNr = $episode;
 								$episodeNr =~ s/([^ ]*) .*/\1/g;
@@ -61,15 +60,20 @@ foreach $show (sort @shows) {
 									$source = $SRCDIR . "/" . $show . "/" . $season . "/" . $episode;
 									$destination = $DSTDIR . "/" . $show . "/" . $season . "/" . $show . ".S" . $seasonNr . "E" . $episodeNr . "." . $ext;
 									if ((-f $destination) && (defined($forceLink))) {
-										&Debug("\t\tUnlinking $destination");
+										&Debug("      ✗ $episode --> $destination");
 										unlink($destination);
-									}
-									if (! -f $destination) {
-										&Debug("\t\tLinking $source ---> $destination");
 										symlink($source, $destination);
 									}
-								}
-							}
+									if (! -f $destination) {
+                                        &Debug("      ⦿ $episode ⤔  $destination");
+										symlink($source, $destination);
+									} else {
+                                        &Debug("      ✓ $episode");
+                                    }
+								} else {
+                                    &Debug("      ⁉︎ $episode");
+                                }
+                            }
 						}
 					}
 				}
@@ -84,5 +88,18 @@ sub Debug {
 	my ($txt) = @_;
 	if (defined($debug)) {
 		print $txt . "\n";
+	}
+}
+
+sub Debugn {
+	my ($txt) = @_;
+	if (defined($debug)) {
+		print $txt;
+	}
+}
+
+sub DebugNewLine {
+	if (defined($debug)) {
+		print "\n";
 	}
 }
