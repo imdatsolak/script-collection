@@ -196,7 +196,6 @@ class EmlxConverter
       has_warning = true
     else
       # Convert date to asctime format.
-      puts "  Date = " + date
       begin
         date = Date.rfc2822(date).asctime
       rescue
