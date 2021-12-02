@@ -52,8 +52,8 @@ foreach $show (sort @shows) {
 								chdir($DSTDIR . "/" . $show . "/" . $season);
 								$episodeNr = $episode;
 								$episodeNr =~ s/([^ ]*) .*/\1/g;
-								if (length($episodeNr) <= 2) {
-									$episodeNr = sprintf("%02d", $episodeNr);
+								if (length($episodeNr) <= 3) {
+									$episodeNr = sprintf("%03d", $episodeNr);
 									$ext = $episode;
 									$ext =~ s/.*(....)$/\1/g;
 									$ext =~ s/\.//g;
